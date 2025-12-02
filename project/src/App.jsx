@@ -7,6 +7,7 @@ import CreateService from './pages/CreateService';
 import AllServices from './pages/AllServices';
 import AllBookings from './pages/AllBookings';
 import AppointmentsList from './pages/AppointmentsList';
+import DashboardBookings from './pages/DashboardBookings';
 
 
 function App() {
@@ -89,7 +90,14 @@ function App() {
               path='/appointment'
               element={<AppointmentsList/>}
               />
+               <Route
+              path='/status'
+              element={<DashboardBookings/>}
+              />
             </Routes>
+           
+            
+            
           </main>
         </div>
       </div>

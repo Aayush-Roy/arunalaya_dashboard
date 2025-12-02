@@ -1,20 +1,22 @@
-// import { useEffect, useState } from 'react';
-// import { Search, Filter, Calendar, User } from 'lucide-react';
-// import axios from 'axios';
+
+// import { useEffect, useState } from "react";
+// import { Search, Filter, Calendar, User, X, Clock, FileText, DollarSign } from "lucide-react";
+// import axios from "axios";
 
 // function AllBookings() {
 //   const [bookings, setBookings] = useState([]);
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [selectedStatus, setSelectedStatus] = useState('all');
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [selectedStatus, setSelectedStatus] = useState("all");
+//   const [selectedBooking, setSelectedBooking] = useState(null); // ✅ Modal state
 
 //   // ✅ Fetch all bookings
 //   const fetchBookings = async () => {
 //     try {
-//       const res = await axios.get('http://localhost:5000/api/bookings');
+//       const res = await axios.get("http://localhost:5000/api/bookings");
 //       setBookings(res.data);
-//       console.log('Fetched bookings:', res.data);
+//       console.log("Fetched bookings:", res.data);
 //     } catch (err) {
-//       console.error('Error fetching bookings:', err);
+//       console.error("Error fetching bookings:", err);
 //     }
 //   };
 
@@ -22,26 +24,24 @@
 //     fetchBookings();
 //   }, []);
 
-//   // ✅ Dynamically get statuses (like confirmed, cancelled, pending)
-//   const statuses = ['all', ...new Set(bookings.map((b) => b.status || 'unknown'))];
+//   // ✅ Dynamically get statuses
+//   const statuses = ["all", ...new Set(bookings.map((b) => b.status || "unknown"))];
 
-//   // ✅ Filter bookings by search and status
+//   // ✅ Filter bookings
 //   const filteredBookings = bookings.filter((booking) => {
 //     const matchesSearch =
 //       booking.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
 //       booking.service?.title?.toLowerCase().includes(searchTerm.toLowerCase());
 //     const matchesStatus =
-//       selectedStatus === 'all' || booking.status === selectedStatus;
+//       selectedStatus === "all" || booking.status === selectedStatus;
 //     return matchesSearch && matchesStatus;
 //   });
 
 //   return (
-//     <div className="space-y-8 animate-fadeIn">
+//     <div className="space-y-8 animate-fadeIn relative">
 //       {/* Header */}
 //       <div>
-//         <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">
-//           All Bookings
-//         </h1>
+//         <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">All Bookings</h1>
 //         <p className="text-gray-400 text-sm">View and manage all user bookings</p>
 //       </div>
 
@@ -67,8 +67,8 @@
 //           >
 //             {statuses.map((status) => (
 //               <option key={status} value={status} className="bg-[#1e1e1e]">
-//                 {status === 'all'
-//                   ? 'All Statuses'
+//                 {status === "all"
+//                   ? "All Statuses"
 //                   : status.charAt(0).toUpperCase() + status.slice(1)}
 //               </option>
 //             ))}
@@ -82,15 +82,15 @@
 //           <p className="text-gray-400 mb-2 text-lg">No bookings found</p>
 //           <p className="text-gray-500 text-sm">
 //             {bookings.length === 0
-//               ? 'No bookings available yet'
-//               : 'Try adjusting your search or filters'}
+//               ? "No bookings available yet"
+//               : "Try adjusting your search or filters"}
 //           </p>
 //         </div>
 //       ) : (
 //         <>
 //           <div className="flex justify-between text-gray-400 text-sm">
 //             <p>
-//               Showing <span className="text-[#f88310]">{filteredBookings.length}</span> of{' '}
+//               Showing <span className="text-[#f88310]">{filteredBookings.length}</span> of{" "}
 //               {bookings.length} bookings
 //             </p>
 //           </div>
@@ -99,47 +99,122 @@
 //             {filteredBookings.map((booking) => (
 //               <div
 //                 key={booking._id}
-//                 className="bg-[#1e1e1e]/70 border border-gray-800 rounded-2xl p-5 hover:border-[#f88310] transition-all duration-300 shadow-md"
+//                 onClick={() => setSelectedBooking(booking)} // ✅ Click handler
+//                 className="cursor-pointer bg-[#1e1e1e]/70 border border-gray-800 rounded-2xl p-5 hover:border-[#f88310] hover:scale-[1.02] transition-all duration-300 shadow-md"
 //               >
 //                 <div className="flex items-center justify-between mb-3">
 //                   <div className="flex items-center gap-2">
 //                     <User size={18} className="text-[#f88310]" />
 //                     <p className="text-white font-medium">
-//                       {booking.user?.name || 'Unknown User'}
+//                       {booking.user?.name || "Unknown User"}
 //                     </p>
 //                   </div>
 //                   <span
 //                     className={`px-3 py-1 text-xs rounded-full font-semibold ${
-//                       booking.status === 'Confirmed'
-//                         ? 'bg-green-600/30 text-green-400'
-//                         : booking.status === 'Cancelled'
-//                         ? 'bg-red-600/30 text-red-400'
-//                         : 'bg-yellow-600/30 text-yellow-400'
+//                       booking.status === "Confirmed"
+//                         ? "bg-green-600/30 text-green-400"
+//                         : booking.status === "Cancelled"
+//                         ? "bg-red-600/30 text-red-400"
+//                         : "bg-yellow-600/30 text-yellow-400"
 //                     }`}
 //                   >
-//                     {booking.status || 'pending'}
+//                     {booking.status || "Pending"}
 //                   </span>
 //                 </div>
 
 //                 <div className="space-y-2 text-gray-400 text-sm">
 //                   <p>
-//                     <strong className="text-white">Service:</strong>{' '}
-//                     {booking.service?.title || 'N/A'}
+//                     <strong className="text-white">Service:</strong>{" "}
+//                     {booking.service?.title || "N/A"}
 //                   </p>
 //                   <p>
 //                     <Calendar size={14} className="inline mr-1 text-[#f88310]" />
-//                     {new Date(booking.date).toLocaleDateString() || 'N/A'}
+//                     {new Date(booking.date).toLocaleDateString() || "N/A"}
 //                   </p>
 //                   <p>
 //                     <strong className="text-white">Amount:</strong> ₹
-//                     {booking.service?.price || '0'}
+//                     {booking.service?.price || "0"}
 //                   </p>
 //                 </div>
-                
 //               </div>
 //             ))}
 //           </div>
 //         </>
+//       )}
+
+//       {/* 🧾 Modal (Booking Details) */}
+//       {selectedBooking && (
+//         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+//           <div className="bg-[#1e1e1e] border border-gray-800 rounded-2xl p-6 w-[90%] sm:w-[400px] relative shadow-2xl animate-fadeIn">
+//             {/* Close button */}
+//             <button
+//               onClick={() => setSelectedBooking(null)}
+//               className="absolute top-3 right-3 text-gray-400 hover:text-white transition"
+//             >
+//               <X size={20} />
+//             </button>
+
+//             <h2 className="text-2xl font-semibold text-white mb-4">
+//               Appointment Details
+//             </h2>
+
+//             <div className="space-y-3 text-gray-300 text-sm">
+//               <p>
+//                 <User size={16} className="inline mr-2 text-[#f88310]" />
+//                 <strong>User:</strong> {selectedBooking.user?.name || "N/A"}
+//               </p>
+//               <p>
+//                 <FileText size={16} className="inline mr-2 text-[#f88310]" />
+//                 <strong>Service:</strong> {selectedBooking.service?.title || "N/A"}
+//               </p>
+//               <p>
+//                 <Calendar size={16} className="inline mr-2 text-[#f88310]" />
+//                 <strong>Date:</strong>{" "}
+//                 {new Date(selectedBooking.date).toLocaleDateString() || "N/A"}
+//               </p>
+//               <p>
+//                 <Clock size={16} className="inline mr-2 text-[#f88310]" />
+//                 <strong>Time Slot:</strong> {selectedBooking.timeSlot || "N/A"}
+//               </p>
+//               <p>
+//                 <DollarSign size={16} className="inline mr-2 text-[#f88310]" />
+//                 <strong>Fees:</strong> ₹{selectedBooking.service?.price || "0"}
+//               </p>
+//               <p>
+//                 <strong className="text-white">Status:</strong>{" "}
+//                 <span
+//                   className={`px-2 py-1 rounded-md ${
+//                     selectedBooking.status === "Confirmed"
+//                       ? "bg-green-600/30 text-green-400"
+//                       : selectedBooking.status === "Cancelled"
+//                       ? "bg-red-600/30 text-red-400"
+//                       : "bg-yellow-600/30 text-yellow-400"
+//                   }`}
+//                 >
+//                   {selectedBooking.status}
+//                 </span>
+//               </p>
+//               {selectedBooking.notes && (
+//                 <p>
+//                   <FileText size={16} className="inline mr-2 text-[#f88310]" />
+//                   <strong>Notes:</strong> {selectedBooking.notes}
+//                 </p>
+//               )}
+//               <p>
+//                 <Clock size={16} className="inline mr-2 text-[#f88310]" />
+//                 <strong>Booked At:</strong>{" "}
+//                 {new Date(selectedBooking.createdAt).toLocaleString()}
+//               </p>
+//             </div>
+
+//             <button
+//               onClick={() => setSelectedBooking(null)}
+//               className="mt-6 w-full bg-gradient-to-r from-[#f88310] to-[#ffac33] text-black font-semibold py-2 rounded-xl hover:opacity-90 transition"
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
 //       )}
 //     </div>
 //   );
@@ -147,40 +222,48 @@
 
 // export default AllBookings;
 import { useEffect, useState } from "react";
-import { Search, Filter, Calendar, User, X, Clock, FileText, DollarSign } from "lucide-react";
+import { Search, Filter, Calendar, User, X, Clock, FileText, DollarSign, MapPin } from "lucide-react";
 import axios from "axios";
 
 function AllBookings() {
   const [bookings, setBookings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedBooking, setSelectedBooking] = useState(null); // ✅ Modal state
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
-  // ✅ Fetch all bookings
+  // ✅ Fetch all bookings (FIXED API + RESPONSE)
   const fetchBookings = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/api/bookings");
-      setBookings(res.data);
-      console.log("Fetched bookings:", res.data);
-    } catch (err) {
-      console.error("Error fetching bookings:", err);
-    }
-  };
+  try {
+    const res = await axios.get(
+      "https://arunalayabackendv2-1.onrender.com/api/agents/bookings/all",
+      {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ2MDg3Yjc2MjMwOThkOGUzMzU1MSIsImlhdCI6MTc2NDY3MTYwNywiZXhwIjoxNzY3MjYzNjA3fQ.96B0bn_JA22L667NcMQ9LSDtswc4ofxbQauRkcI5fBs`,
+        },
+      }
+    );
+
+    setBookings(res.data.data || []);
+  } catch (err) {
+    console.error("Error fetching bookings:", err);
+  }
+};
+
 
   useEffect(() => {
     fetchBookings();
   }, []);
 
-  // ✅ Dynamically get statuses
-  const statuses = ["all", ...new Set(bookings.map((b) => b.status || "unknown"))];
+  // ✅ Status list
+  const statuses = ["all", ...new Set(bookings.map((b) => b.bookingStatus || "unknown"))];
 
   // ✅ Filter bookings
   const filteredBookings = bookings.filter((booking) => {
     const matchesSearch =
-      booking.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      booking.service?.title?.toLowerCase().includes(searchTerm.toLowerCase());
+      booking.userId?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.serviceId?.title?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
-      selectedStatus === "all" || booking.status === selectedStatus;
+      selectedStatus === "all" || booking.bookingStatus === selectedStatus;
     return matchesSearch && matchesStatus;
   });
 
@@ -189,7 +272,7 @@ function AllBookings() {
       {/* Header */}
       <div>
         <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">All Bookings</h1>
-        <p className="text-gray-400 text-sm">View and manage all user bookings</p>
+        <p className="text-gray-400 text-sm">View and manage all bookings</p>
       </div>
 
       {/* Filters */}
@@ -198,10 +281,10 @@ function AllBookings() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
           <input
             type="text"
-            placeholder="Search by user or service name..."
+            placeholder="Search by user or service..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-transparent border border-gray-700 rounded-xl pl-12 pr-4 py-3 text-white focus:border-[#f88310] outline-none transition-all"
+            className="w-full bg-transparent border border-gray-700 rounded-xl pl-12 pr-4 py-3 text-white"
           />
         </div>
 
@@ -210,7 +293,7 @@ function AllBookings() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="w-full bg-transparent border border-gray-700 rounded-xl pl-12 pr-8 py-3 text-white focus:border-[#f88310] outline-none cursor-pointer transition-all"
+            className="w-full bg-transparent border border-gray-700 rounded-xl pl-12 pr-8 py-3 text-white"
           >
             {statuses.map((status) => (
               <option key={status} value={status} className="bg-[#1e1e1e]">
@@ -225,138 +308,127 @@ function AllBookings() {
 
       {/* Booking List */}
       {filteredBookings.length === 0 ? (
-        <div className="text-center bg-[#1e1e1e]/70 backdrop-blur-md border border-gray-800 rounded-2xl py-16 shadow-inner">
-          <p className="text-gray-400 mb-2 text-lg">No bookings found</p>
-          <p className="text-gray-500 text-sm">
-            {bookings.length === 0
-              ? "No bookings available yet"
-              : "Try adjusting your search or filters"}
-          </p>
+        <div className="text-center bg-[#1e1e1e]/70 border border-gray-800 rounded-2xl py-16">
+          <p className="text-gray-400 text-lg">No bookings found</p>
         </div>
       ) : (
         <>
-          <div className="flex justify-between text-gray-400 text-sm">
-            <p>
-              Showing <span className="text-[#f88310]">{filteredBookings.length}</span> of{" "}
-              {bookings.length} bookings
-            </p>
-          </div>
+          <p className="text-gray-400 text-sm">
+            Showing <span className="text-[#f88310]">{filteredBookings.length}</span> of{" "}
+            {bookings.length} bookings
+          </p>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredBookings.map((booking) => (
               <div
                 key={booking._id}
-                onClick={() => setSelectedBooking(booking)} // ✅ Click handler
-                className="cursor-pointer bg-[#1e1e1e]/70 border border-gray-800 rounded-2xl p-5 hover:border-[#f88310] hover:scale-[1.02] transition-all duration-300 shadow-md"
+                onClick={() => setSelectedBooking(booking)}
+                className="cursor-pointer bg-[#1e1e1e]/70 border border-gray-800 rounded-2xl p-5 hover:border-[#f88310]"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <User size={18} className="text-[#f88310]" />
                     <p className="text-white font-medium">
-                      {booking.user?.name || "Unknown User"}
+                      {booking.userId?.name || "Unknown User"}
                     </p>
                   </div>
                   <span
                     className={`px-3 py-1 text-xs rounded-full font-semibold ${
-                      booking.status === "Confirmed"
+                      booking.bookingStatus === "completed"
                         ? "bg-green-600/30 text-green-400"
-                        : booking.status === "Cancelled"
+                        : booking.bookingStatus === "cancelled"
                         ? "bg-red-600/30 text-red-400"
                         : "bg-yellow-600/30 text-yellow-400"
                     }`}
                   >
-                    {booking.status || "Pending"}
+                    {booking.bookingStatus}
                   </span>
                 </div>
 
-                <div className="space-y-2 text-gray-400 text-sm">
-                  <p>
-                    <strong className="text-white">Service:</strong>{" "}
-                    {booking.service?.title || "N/A"}
-                  </p>
-                  <p>
-                    <Calendar size={14} className="inline mr-1 text-[#f88310]" />
-                    {new Date(booking.date).toLocaleDateString() || "N/A"}
-                  </p>
-                  <p>
-                    <strong className="text-white">Amount:</strong> ₹
-                    {booking.service?.price || "0"}
-                  </p>
-                </div>
+                <p className="text-gray-400 text-sm">
+                  <strong className="text-white">Service:</strong>{" "}
+                  {booking.serviceId?.title}
+                </p>
+
+                <p className="text-gray-400 text-sm">
+                  <Calendar size={14} className="inline mr-1 text-[#f88310]" />
+                  {new Date(booking.selectedDate).toLocaleDateString()}
+                </p>
+
+                <p className="text-gray-400 text-sm">
+                  <Clock size={14} className="inline mr-1 text-[#f88310]" />
+                  {booking.selectedTime}
+                </p>
+
+                <p className="text-gray-400 text-sm">
+                  <DollarSign size={14} className="inline mr-1 text-[#f88310]" />
+                  ₹{booking.finalBillAmount}
+                </p>
               </div>
             ))}
           </div>
         </>
       )}
 
-      {/* 🧾 Modal (Booking Details) */}
+      {/* Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#1e1e1e] border border-gray-800 rounded-2xl p-6 w-[90%] sm:w-[400px] relative shadow-2xl animate-fadeIn">
-            {/* Close button */}
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-[#1e1e1e] border border-gray-800 rounded-2xl p-6 w-[90%] sm:w-[420px] relative">
             <button
               onClick={() => setSelectedBooking(null)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-white transition"
+              className="absolute top-3 right-3 text-gray-400 hover:text-white"
             >
               <X size={20} />
             </button>
 
-            <h2 className="text-2xl font-semibold text-white mb-4">
-              Appointment Details
-            </h2>
+            <h2 className="text-2xl font-semibold text-white mb-4">Booking Details</h2>
 
             <div className="space-y-3 text-gray-300 text-sm">
               <p>
                 <User size={16} className="inline mr-2 text-[#f88310]" />
-                <strong>User:</strong> {selectedBooking.user?.name || "N/A"}
+                <strong>User:</strong> {selectedBooking.userId?.name}
               </p>
+
               <p>
                 <FileText size={16} className="inline mr-2 text-[#f88310]" />
-                <strong>Service:</strong> {selectedBooking.service?.title || "N/A"}
+                <strong>Service:</strong> {selectedBooking.serviceId?.title}
               </p>
+
               <p>
                 <Calendar size={16} className="inline mr-2 text-[#f88310]" />
                 <strong>Date:</strong>{" "}
-                {new Date(selectedBooking.date).toLocaleDateString() || "N/A"}
+                {new Date(selectedBooking.selectedDate).toLocaleDateString()}
               </p>
+
               <p>
                 <Clock size={16} className="inline mr-2 text-[#f88310]" />
-                <strong>Time Slot:</strong> {selectedBooking.timeSlot || "N/A"}
+                <strong>Time:</strong> {selectedBooking.selectedTime}
               </p>
+
+              <p>
+                <MapPin size={16} className="inline mr-1 text-[#f88310]" />
+                <strong>Address:</strong> {selectedBooking.userAddress}
+              </p>
+
               <p>
                 <DollarSign size={16} className="inline mr-2 text-[#f88310]" />
-                <strong>Fees:</strong> ₹{selectedBooking.service?.price || "0"}
+                <strong>Total Bill:</strong> ₹{selectedBooking.finalBillAmount}
               </p>
+
               <p>
                 <strong className="text-white">Status:</strong>{" "}
-                <span
-                  className={`px-2 py-1 rounded-md ${
-                    selectedBooking.status === "Confirmed"
-                      ? "bg-green-600/30 text-green-400"
-                      : selectedBooking.status === "Cancelled"
-                      ? "bg-red-600/30 text-red-400"
-                      : "bg-yellow-600/30 text-yellow-400"
-                  }`}
-                >
-                  {selectedBooking.status}
-                </span>
+                {selectedBooking.bookingStatus}
               </p>
-              {selectedBooking.notes && (
-                <p>
-                  <FileText size={16} className="inline mr-2 text-[#f88310]" />
-                  <strong>Notes:</strong> {selectedBooking.notes}
-                </p>
-              )}
+
               <p>
-                <Clock size={16} className="inline mr-2 text-[#f88310]" />
-                <strong>Booked At:</strong>{" "}
-                {new Date(selectedBooking.createdAt).toLocaleString()}
+                <strong className="text-white">Payment:</strong>{" "}
+                {selectedBooking.paymentStatus}
               </p>
             </div>
 
             <button
               onClick={() => setSelectedBooking(null)}
-              className="mt-6 w-full bg-gradient-to-r from-[#f88310] to-[#ffac33] text-black font-semibold py-2 rounded-xl hover:opacity-90 transition"
+              className="mt-6 w-full bg-[#f88310] text-black font-semibold py-2 rounded-xl"
             >
               Close
             </button>

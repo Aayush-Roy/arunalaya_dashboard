@@ -118,6 +118,7 @@ import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Plus, List, CalendarDays } from "lucide-react";
 import Logo from '../assets/bhang.png';
 
+
 function Sidebar() {
   const location = useLocation();
 
@@ -125,7 +126,9 @@ function Sidebar() {
     { path: "/", icon: LayoutDashboard, label: "Dashboard" },
     { path: "/create", icon: Plus, label: "Create Service" },
     { path: "/services", icon: List, label: "All Services" },
-    { path: "/bookings", icon: CalendarDays, label: "All Bookings" }, // ✅ New Bookings Button
+    { path: "/bookings", icon: CalendarDays, label: "All Bookings" },
+     // ✅ New Bookings Button
+    //  {path:'/status',icon:CalendarDays, label:"Status"}
   ];
 
   return (
